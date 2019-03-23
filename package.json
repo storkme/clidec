@@ -1,6 +1,6 @@
 {
   "name": "clidec",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha1",
   "description": "cli apps with decorators",
   "main": "dist/index.js",
   "scripts": {
@@ -11,6 +11,14 @@
   },
   "types": "dist/index.d.ts",
   "author": "alex storkey",
+  "keywords": [
+    "typescript",
+    "command",
+    "cli",
+    "args",
+    "arguments",
+    "decorator"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",
