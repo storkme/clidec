@@ -1,21 +1,29 @@
 {
   "name": "clidec",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "cli apps with decorators",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm dist",
+    "lint": "tslint --config tslint.json --project tsconfig.json"
   },
+  "types": "dist/index.d.ts",
   "author": "alex storkey",
   "license": "ISC",
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",
     "@types/command-line-usage": "^5.0.1",
+    "@types/node": "^11.11.6",
     "prettier": "^1.16.4",
+    "tslint": "^5.14.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.4000"
   },
   "dependencies": {
     "command-line-args": "^5.0.2",
-    "command-line-usage": "^5.0.5"
+    "command-line-usage": "^5.0.5",
+    "reflect-metadata": "^0.1.13"
   }
 }

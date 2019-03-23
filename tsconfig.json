@@ -3,18 +3,12 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
-    "sourceMap": false,
-    "allowJs": false,
+    "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"],
+    "declaration": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
