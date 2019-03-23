@@ -8,8 +8,9 @@ export interface ICommandArgs {
   help?: HelpArgs;
 }
 
-export interface IOptArgs extends commandLineArgs.OptionDefinition {
-  description?: string;
-}
+export type IOptArgs = {
+  required?: boolean;
+} & commandLineArgs.OptionDefinition &
+  commandLineUsage.OptionDefinition;
 
 export type HelpArgs = commandLineUsage.Section | commandLineUsage.Section[];

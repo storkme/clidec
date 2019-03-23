@@ -19,12 +19,9 @@ Inspired by [NestJS](https://nestjs.com/) and [Angular](https://angular.io/).
 
 ## Ok, show me?
 
-Given the following file `foo.ts` or whatever:
+Given the following file `test.ts`:
 
 ```typescript
-// required I think
-import "reflect-metadata";
-
 import { bootstrap, Command, Help, Opt } from "clidec";
 
 @Help([
@@ -78,25 +75,25 @@ class foo {
   }
 
   @Command({
-    name: "whatever",
-    alias: "w",
-    description: "another command for whatever",
+    name: "anotherTest",
+    alias: "a",
+    description: "another test command",
     help: [
       {
-        header: "Whatever command",
-        content: "this command does whatever, i don't even know, leave me alone"
+        header: "anotherTest",
+        content: "this is another test command"
       },
       {}
     ]
   })
   public whatever(
     @Opt({
-      name: "dontCare",
-      alias: "d",
+      name: "testFlag",
+      alias: "t",
       type: Boolean,
-      description: "don't care?"
+      description: "test flag"
     })
-    opt?: boolean
+    testFlag?: boolean
   ) {
     // do some command stuff here
   }
@@ -108,52 +105,61 @@ class foo {
 bootstrap(new foo());
 ```
 
-Example output from running `$ ts-node foo.ts help`:
+Example output from running `$ ts-node test.ts` / `$ ts-node test.ts help` / `$ ts-node test.ts --help`:
 
 ```
-Cool cmd
+Test - test command
 
-This command does some rly cool stuff, you can use it for interesting
-whatever things blah blah blah blah blah blah blah blah blah blah blah blah
-blah blah blah blah blah
+  This command shows how clidec works, and how it can be used to bootstrap cli
+  app development really quickly & with minimal boilerplate.FYI, this help
+  block uses chalk template syntax.
 
 Examples
 
-$ cmd test [user]
-$ cmd whatever
+  $ test foo [file]
+  $ test bar
 
-Command List
+Commands:
 
-test       t   This test command is good and does stuff
-whatever   w   another command for whatever
-```
-
-Example output from: `$ ts-node foo.ts help test`:
+  foo   f   this foo command does foo stuff
+  bar   b   the bar command does bar things
 
 ```
-A test command
 
-this does some test stuff
+Example output from: `$ ts-node foo.ts help foo`:
+
+```
+foo command
+
+  This command uses a bunch of different options, including required options.
+
+examples
+
+  $ cmd foo <file>
+  $ cmd foo -r <file>
 
 Options
 
--r, --includeRaw    include the raw log output
--t, --type          [string] filter by command type
--u, --user          [string] filter by username or whatever
+  -r, --raw         use raw input, for example
+  -f, --file file   file to read
 
 ```
 
-Example output from: `$ ts-node foo.ts help whatever`:
+Example output from: `$ ts-node foo.ts help bar`:
 
 ```
-Whatever command
+bar command
 
-this command does whatever, i don't even know, leave me alone
+  This command has an option that can be used multiple times. The value that's
+  passed to the function will be a string array.
 
+examples
+
+  $ test bar -m first -m second
 
 Options
 
--d, --dontCare    don't care?
+  -m, --multiple string   argument that can be used multiple times
 
 ```
 
@@ -165,16 +171,23 @@ Here is all you need to know to use this thing.
 
 Make this function a command.
 
-| property    | type / description                                                                                                                                                          |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name        | **string (required)** the name of your (sub) command.                                                                                                                       |
-| alias       | _string_: alias for this command.                                                                                                                                           |
-| description | _string_ used to describe this sub command in the `help` menu.                                                                                                              |
-| help        | [**HelpSection**](https://github.com/75lb/command-line-usage#exp_module_command-line-usage--commandLineUsage) used when your cmd is run with `$ cmd help <subcommand-name>` |
+| property    | type                                                                                                        | description                                                   |
+| ----------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| name        | **string (required)**                                                                                       | the name of your (sub) command.                               |
+| alias       | _string_                                                                                                    | alias for this command.                                       |
+| description | _string_                                                                                                    | used to describe this sub command in the `help` menu.         |
+| help        | [_HelpSection_](https://github.com/75lb/command-line-usage#exp_module_command-line-usage--commandLineUsage) | used when your cmd is run with `$ cmd help <subcommand-name>` |
 
 ### `@Opt(object)` (parameters)
 
-Make this parameter an option like a flag or argument. Includes all of the properties [specified by command-line-args](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) and those [specified by command-line-usage](https://github.com/75lb/command-line-usage#commandlineusageoptionlist)
+| property    | type                  | description                                                                                                                                         |
+| ----------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name        | **string (required)** | the name of your param. Should probably match the parameters name                                                                                   |
+| alias       | _string_              | alias for this option.                                                                                                                              |
+| required    | _boolean_             | whether or not this option is required. If it is required and not provided when the command is executed, the program will print a warning and exit. |
+| description | _string_              | used to describe this param in the help menu.                                                                                                       |
+
+**Also includes** all of the properties specified by [command-line-args `OptionDefinition`](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) and those specified by [command-line-usage `OptionDefinition`](https://github.com/75lb/command-line-usage#commandlineusageoptionlist).
 
 ### `@Help(HelpArgs)` (classes)
 
@@ -195,7 +208,7 @@ Remember you **NEED TO** add this the `compilerOptions` section of your `tsconfi
 
 ## Future:
 
-* Add some tests. This is a rush job.
-* Add some kind of 'devMode' option for the bootstrap function which runs a bunch of sanity checks to make sure all the decorators are set up right.
-* Add a 'middleware' system so you could handle different output types.
-* Add a nice error handler. Maybe support for async functions too.
+- Add some tests. This is a rush job.
+- Add some kind of 'devMode' option for the bootstrap function which runs a bunch of sanity checks to make sure all the decorators are set up right.
+- Add a 'middleware' system so you could handle different output types.
+- Add a nice error handler. Maybe support for async functions too.
