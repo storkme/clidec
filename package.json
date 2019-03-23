@@ -1,6 +1,6 @@
 {
   "name": "clidec",
-  "version": "0.0.2-alpha1",
+  "version": "0.0.2-alpha2",
   "description": "cli apps with decorators",
   "main": "dist/index.js",
   "scripts": {

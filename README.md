@@ -26,83 +26,86 @@ import { bootstrap, Command, Help, Opt } from "clidec";
 
 @Help([
   {
-    header: "Cool cmd",
+    header: "Test - test command",
     content:
-      "This command does some rly cool stuff, you can use it for interesting whatever " +
-      "things blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
+      "This command shows how clidec works, and how it can be used to bootstrap cli app development really quickly & with minimal boilerplate." +
+      "FYI, this help block uses {green.bold chalk} template syntax."
   },
   {
     header: "Examples",
-    content: ["$ cmd test [user]", "$ cmd whatever"]
+    content: ["$ test foo [file]", "$ test bar"]
   }
 ])
-class foo {
+class Test {
   @Command({
-    name: "test",
-    alias: "t",
-    description: "This test command is good and does stuff",
+    name: "foo",
+    alias: "f",
+    summary: "this foo command does foo stuff",
     help: [
       {
-        header: "A test command",
-        content: "this does some test stuff"
+        header: "foo command",
+        content:
+          "This command uses a bunch of different options, including required options."
+      },
+      {
+        header: "examples",
+        content: ["$ cmd foo <file>", "$ cmd foo -r <file>"]
       }
     ]
   })
-  public test(
+  public foo(
     @Opt({
-      name: "user",
-      alias: "u",
+      name: "file",
+      alias: "f",
       defaultOption: true,
-      description: "[string] filter by username or whatever"
+      required: true,
+      typeLabel: "file",
+      description: "file to read"
     })
-    user?: string,
+    file?: string,
     @Opt({
-      name: "type",
-      alias: "t",
-      multiple: true,
-      description: "[string] filter by command type"
-    })
-    type?: string[],
-    @Opt({
-      name: "includeRaw",
+      name: "raw",
       alias: "r",
       type: Boolean,
-      description: "include the raw log output"
+      description: "use raw input, for example"
     })
-    includeRaw?: boolean
+    raw?: boolean
   ): void {
     // do some command stuff
   }
 
   @Command({
-    name: "anotherTest",
-    alias: "a",
-    description: "another test command",
+    name: "bar",
+    alias: "b",
+    summary: "the bar command does bar things",
     help: [
       {
-        header: "anotherTest",
-        content: "this is another test command"
+        header: "bar command",
+        content:
+          "This command has an option that can be used multiple times. The value that's passed to the function will be a string array."
       },
-      {}
+      {
+        header: "examples:",
+        content: ["$ test bar -m first -m second"]
+      }
     ]
   })
-  public whatever(
+  public bar(
     @Opt({
-      name: "testFlag",
-      alias: "t",
-      type: Boolean,
-      description: "test flag"
+      multiple: true,
+      name: "multiple",
+      alias: "m",
+      description: "argument that can be used multiple times",
+      typeLabel: "string"
     })
-    testFlag?: boolean
+    multiple: string[]
   ) {
-    // do some command stuff here
+    // do some stuff here
   }
 }
 
-// the bootstrap function does all of the work of
-// handling process.argv and calling our decorated
-// functions with the appropriate params!
-bootstrap(new foo());
+// actually run our commands!
+bootstrap(new Test());
 ```
 
 Example output from running `$ ts-node test.ts` / `$ ts-node test.ts help` / `$ ts-node test.ts --help`:
